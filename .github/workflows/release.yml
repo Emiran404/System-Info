@@ -1,0 +1,56 @@
+name: Build and Release System Info
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Show SDK Path
+        run: xcrun --show-sdk-path --sdk macosx
+
+      - name: Create App Structure
+        run: |
+          mkdir -p SystemInfo.app/Contents/MacOS
+          mkdir -p SystemInfo.app/Contents/Resources
+          cp "System Info/Info.plist" SystemInfo.app/Contents/Info.plist || cp "System Info/System Info/Info.plist" SystemInfo.app/Contents/Info.plist || true
+
+      - name: Compile Native Swift Application
+        run: |
+          swiftc -O -sdk $(xcrun --show-sdk-path --sdk macosx) \
+            "System Info/System_InfoApp.swift" \
+            "System Info/ContentView.swift" \
+            "System Info/SystemMonitor.swift" \
+            "System Info/LanguageManager.swift" \
+            -o SystemInfo.app/Contents/MacOS/SystemInfo
+
+      - name: Create DMG File
+        run: |
+          hdiutil create -volname "System Info" -srcfolder "SystemInfo.app" -ov -format UDZO "SystemInfo.dmg"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SystemInfo.dmg
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## System Info v${{ github.ref_name }}
+            
+            This is an automated release for version ${{ github.ref_name }}.
+            
+            ### 📥 Installation
+            1. Download the `SystemInfo.dmg` from the assets below.
+            2. Double-click to mount the DMG.
+            3. Drag the `SystemInfo` app to your **Applications** folder.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
