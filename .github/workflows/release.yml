@@ -41,7 +41,7 @@ jobs:
       - name: Create PKG Installer
         run: |
           # Build a component package and then a product installer
-          pkgbuild --component SystemInfo.app --install-location /Applications SystemInfoComponent.pkg
+          pkgbuild --component ./SystemInfo.app --install-location /Applications SystemInfoComponent.pkg
           productbuild --package SystemInfoComponent.pkg SystemInfoInstaller.pkg
 
       - name: Create GitHub Release
