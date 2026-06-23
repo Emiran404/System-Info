@@ -40,8 +40,10 @@ jobs:
 
       - name: Create PKG Installer
         run: |
-          # Build a component package and then a product installer
-          pkgbuild --component ./SystemInfo.app --install-location /Applications SystemInfoComponent.pkg
+          # Create a root installation folder structure
+          mkdir -p pkgroot/Applications
+          cp -R SystemInfo.app pkgroot/Applications/
+          pkgbuild --root pkgroot --identifier com.emirhan.SystemInfo --version ${{ github.ref_name }} SystemInfoComponent.pkg
           productbuild --package SystemInfoComponent.pkg SystemInfoInstaller.pkg
 
       - name: Create GitHub Release
