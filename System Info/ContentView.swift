@@ -581,6 +581,10 @@ struct ContentView: View {
                 VStack(spacing: 16) {
                     SpecRow(title: "Developer".localized, value: "Emirhan Gök")
                     
+                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+                    let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+                    SpecRow(title: "App Version".localized, value: "\(appVersion) (\(buildNumber))")
+                    
                     VStack(spacing: 8) {
                         HStack {
                             Text("GitHub Repository".localized)
@@ -593,7 +597,7 @@ struct ContentView: View {
                             }) {
                                 HStack(spacing: 4) {
                                     Text("github.com/Emiran404/System-Info")
-                                    Image(systemName: "arrow.up.right.square")
+                                        Image(systemName: "arrow.up.right.square")
                                 }
                                 .foregroundColor(.accentColor)
                                 .fontWeight(.medium)

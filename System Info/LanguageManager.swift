@@ -673,6 +673,11 @@ class LanguageManager: ObservableObject {
             .english: "Sandbox restrictions prevent direct hardware sensor access. Values are dynamically calculated based on actual CPU load.",
             .turkish: "Sandbox kısıtlamaları doğrudan donanım sensörlerine erişimi engelliyor. Değerler CPU yüküne göre dinamik hesaplanmaktadır.",
             .german: "Sandbox-Einschränkungen verhindern den direkten Zugriff auf Hardware-Sensoren. Werte werden basierend auf der CPU-Auslastung dynamik berechnet."
+        ],
+        "App Version": [
+            .english: "App Version",
+            .turkish: "Uygulama Sürümü",
+            .german: "App-Version"
         ]
     ]
     
