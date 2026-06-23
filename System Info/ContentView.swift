@@ -449,9 +449,24 @@ struct ContentView: View {
             // Temperatures List Card
             MetricCard(title: "System Temperatures".localized, subtitle: "On-chip sensor arrays".localized, icon: "thermometer.medium", color: .red) {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Thermal telemetry description".localized)
-                        .foregroundColor(.secondary)
-                        .font(.callout)
+                    HStack {
+                        Text("Thermal telemetry description".localized)
+                            .foregroundColor(.secondary)
+                            .font(.callout)
+                        
+                        if monitor.isSandboxFallback {
+                            Spacer()
+                            HStack(spacing: 4) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.orange)
+                                Text("Calculated".localized)
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.orange)
+                            }
+                            .help("Sandbox restrictions prevent direct hardware sensor access. Values are dynamically calculated based on actual CPU load.".localized)
+                        }
+                    }
                     
                     Divider()
                     

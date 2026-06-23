@@ -53,6 +53,7 @@ class SystemMonitor: ObservableObject {
     @Published var disks: [DiskInfo] = []
     @Published var temperatures: [ThermalSensor] = []
     @Published var thermalState: String = "Nominal"
+    @Published var isSandboxFallback: Bool = false
     
     // Telemetry History (Last 60 seconds)
     @Published var cpuHistory: [Double] = Array(repeating: 0.0, count: 60)
@@ -439,9 +440,11 @@ class SystemMonitor: ObservableObject {
             }
         }
         
+        let isFallback = sensorData.isEmpty
+        
         // Dynamic Fallback: If sandbox restrictions or older models prevent raw reading,
         // compute realistic temperatures mapped dynamically to CPU load (so it rises/falls dynamically)
-        if sensorData.isEmpty {
+        if isFallback {
             let cpuLoad = self.cpuUsageTotal
             let baseTemp = 36.5 // Idle body/room baseline
             
@@ -466,6 +469,7 @@ class SystemMonitor: ObservableObject {
         }
         
         DispatchQueue.main.async {
+            self.isSandboxFallback = isFallback
             self.thermalState = stateStr
             self.temperatures = sensorData.sorted(by: { $0.temperature > $1.temperature })
         }

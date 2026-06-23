@@ -663,6 +663,16 @@ class LanguageManager: ObservableObject {
             .english: "AC Connected (Charging)",
             .turkish: "Güç Kaynağına Bağlı (Şarj Ediliyor)",
             .german: "Netzteil angeschlossen (Wird geladen)"
+        ],
+        "Calculated": [
+            .english: "Calculated",
+            .turkish: "Hesaplanan",
+            .german: "Berechnet"
+        ],
+        "Sandbox restrictions prevent direct hardware sensor access. Values are dynamically calculated based on actual CPU load.": [
+            .english: "Sandbox restrictions prevent direct hardware sensor access. Values are dynamically calculated based on actual CPU load.",
+            .turkish: "Sandbox kısıtlamaları doğrudan donanım sensörlerine erişimi engelliyor. Değerler CPU yüküne göre dinamik hesaplanmaktadır.",
+            .german: "Sandbox-Einschränkungen verhindern den direkten Zugriff auf Hardware-Sensoren. Werte werden basierend auf der CPU-Auslastung dynamik berechnet."
         ]
     ]
     
