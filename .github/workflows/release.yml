@@ -34,6 +34,14 @@ jobs:
             "System Info/LanguageManager.swift" \
             -o SystemInfo.app/Contents/MacOS/SystemInfo
 
+      - name: Codesign App Bundle
+        run: |
+          # Strip extended attributes
+          xattr -cr SystemInfo.app
+          # Apply ad-hoc signature (-) to the binary and the bundle
+          codesign --force --deep --sign - SystemInfo.app/Contents/MacOS/SystemInfo
+          codesign --force --deep --sign - SystemInfo.app
+
       - name: Create DMG File
         run: |
           hdiutil create -volname "System Info" -srcfolder "SystemInfo.app" -ov -format UDZO "SystemInfo.dmg"
