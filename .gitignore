@@ -1,0 +1,24 @@
+# OS X
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/
+*.moved-aside
+*.xcuserstate
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# App Bundles & Archives
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM
