@@ -38,19 +38,64 @@ jobs:
         run: |
           hdiutil create -volname "System Info" -srcfolder "SystemInfo.app" -ov -format UDZO "SystemInfo.dmg"
 
+      - name: Create PKG Installer
+        run: |
+          # Build a component package and then a product installer
+          pkgbuild --component SystemInfo.app --install-location /Applications SystemInfoComponent.pkg
+          productbuild --package SystemInfoComponent.pkg SystemInfoInstaller.pkg
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: SystemInfo.dmg
-          name: Release ${{ github.ref_name }}
+          files: |
+            SystemInfo.dmg
+            SystemInfoInstaller.pkg
+          name: "🚀 System Info ${{ github.ref_name }} - Initial Premium Release (Latest)"
           body: |
-            ## System Info v${{ github.ref_name }}
+            A premium, lightweight, and native macOS system monitor written entirely in Swift and SwiftUI. This utility provides real-time hardware diagnostics, active telemetry history, and custom configurations through a highly optimized, low-overhead native app.
             
-            This is an automated release for version ${{ github.ref_name }}.
+            ---
             
-            ### 📥 Installation
-            1. Download the `SystemInfo.dmg` from the assets below.
-            2. Double-click to mount the DMG.
-            3. Drag the `SystemInfo` app to your **Applications** folder.
+            ### 🌟 Key Features
+            
+            *   💻 **Real-Time Telemetry Dashboard**: Complete visual metrics for CPU, RAM, Network, Storage cluster, and Battery health.
+            *   📈 **Active History Graphs**: Beautiful, glowing sparklines and area charts that track utilization over the last 60 seconds with 0.5s updates.
+            *   🌡️ **Dynamic Thermal Array**: Under-the-hood diagnostic panel displaying temperatures dynamically mapped to CPU load or real Apple Silicon/Intel hardware sensors.
+            *   🌬️ **Active Fan Monitoring**: Dynamic RPM tracking that directly responds to active system load.
+            *   🔋 **Battery Health Diagnostics**: Comprehensive monitoring of remaining capacity, absolute health percentage (accurately calculated for Apple Silicon Macs), and charge cycles.
+            *   ⚙️ **Advanced Custom Settings**:
+                *   **Multi-language Support**: Auto-detects and adapts to the system language (English, Turkish, German) on startup.
+                *   **Theme Controller**: Toggle between Light Mode, Dark Mode, or match System Theme.
+                *   **Temperature Unit Converter**: Switch instantly between Celsius (°C) and Fahrenheit (°F).
+                *   **Status Menu Bar Utility**: Option to dock live CPU/RAM metrics directly on the macOS menu bar.
+                *   **Launch at Login**: Integrates with modern `SMAppService` API to safely launch at boot.
+            
+            ---
+            
+            ### ⚙️ System Requirements & Constraints
+            *   **Operating System**: macOS Ventura (13.0) or higher.
+            *   **Hardware Compatibility**: Optimized for Apple Silicon (M1/M2/M3/M4/M5) and Intel-based Macs.
+            *   **Fixed Layout**: Window is structurally locked to `850x620` to prevent UI layout distortions.
+            *   **Premium Graphics**: Custom dynamic app icon rendered programmatically using vector canvas segments (`apple.sleep.score` palette style).
+            
+            ---
+            
+            ### 📥 Installation Instructions
+            
+            #### Option A: Drag & Drop (DMG) - Recommended
+            1. Download the **`SystemInfo.dmg`** asset attached below.
+            2. Double-click to mount the disk image.
+            3. Drag **`SystemInfo.app`** into your **`Applications`** folder.
+            
+            #### Option B: Standard Installer (PKG)
+            1. Download the **`SystemInfoInstaller.pkg`** asset attached below.
+            2. Double-click to run the setup wizard and follow the instructions to install.
+            
+            ---
+            
+            ### 🛠️ Developer & Community
+            *   **Developer**: [Emirhan Gök](https://github.com/Emiran404)
+            *   **Source Code**: [Emiran404/System-Info](https://github.com/Emiran404/System-Info)
+            *   **License**: Distributed under the MIT License.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
